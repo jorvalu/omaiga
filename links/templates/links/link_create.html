@@ -1,0 +1,57 @@
+{% extends "links/main_w_sidebar.html" %}
+
+{% block head_title %}Enviar noticia{% endblock %}
+
+{% block content %}
+
+{% url 'link_update' pk=object.pk as update %}
+{% load static %}
+
+<!-- Title -->
+<h1 class="mt-4 mb-0">
+	<a class="text-inherit" href="#">Enviar una noticia</a>
+</h1>
+
+<!-- Subtitle -->
+<p>Enlaza la fuente original de la noticia que crees que debemos conocer</p>
+
+<hr>
+
+<!-- Recommendations -->
+<p>Mauris interdum vulputate tortor eu fermentum.</p>
+
+<ul>
+  <li>Cras justo odio</li>
+  <li>Dapibus ac facilisis in</li>
+  <li>Morbi leo risus</li>
+  <li>Porta ac consectetur ac</li>
+  <li>Vestibulum at eros</li>
+</ul>
+
+<!-- Link Form -->
+<div class="card my-4">
+  <h5 class="card-header">Detalles de la noticia:</h5>
+  <div class="card-body">
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'base/_form.html' with form=form %}
+        <button type="submit" class="btn btn-primary float-left">Enviar</button>
+    </form>
+    
+    {% if request.path == update %}
+       <a class="btn btn-danger text-white float-right" href="javascript:void(0)" 
+       data-toggle="modal" data-target="#deleteModal" data-action="{% url 'link_delete' pk=object.pk %}">Eliminar</a>
+
+    {% endif %}
+
+  </div>
+</div>
+
+{% include "base/_delete_modal.html" %}
+<script src="{% static "js/delete_modal.js" %}"></script>
+
+{% endblock %}
+
+
+

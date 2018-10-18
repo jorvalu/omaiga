@@ -1,0 +1,7 @@
+<div>
+	{% for tag in tags %}
+		<a href="{% url 'link_list' %}?tag={{tag.tag__name}}" style="font-size:{{tag.size}}px">
+		{{tag.tag__name}}
+		</a> 
+	{% endfor %}
+</div>

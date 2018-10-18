@@ -1,0 +1,30 @@
+{% extends "base/main.html" %}
+
+{% block head_title %}Login{% endblock %}
+
+{% block body %}
+
+<div class="row my-4">
+
+	<!-- Content Column -->
+	<div class="col-lg-6 offset-lg-3">
+
+		<h1 class="text-center my-4">Login</h2>
+
+		<form class="my-4" method="post" novalidate>
+		  	{% csrf_token %}
+		  	{% include 'base/_form.html' with form=form %}
+
+		  	<div class="form-group">
+		  		<a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+		  	</div>
+			<button type="submit" class="btn btn-primary">Login</button>
+		</form>
+
+	</div>
+	<!-- /.col-lg-8 -->
+
+</div>
+<!-- /.row -->
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% autoescape off %}
+
+Hola {{ user }},
+
+Por favor haz clic en el siguiente enlace para confirmar tu cuenta:
+
+http://{{ domain }}{% url 'signup_activation' uidb64=uid token=token %}
+
+Si el enlace no funciona al hacer clic sobre él, por favor cópialo y pégalo en tu navegador.
+
+Atentamente,
+
+Webmaster
+
+{% endautoescape %}

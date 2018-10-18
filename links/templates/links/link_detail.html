@@ -1,0 +1,16 @@
+{% extends "links/main_w_sidebar.html" %}
+
+{% block head_title %}{{object.title}}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+	{% include "links/_item.html" %}
+	{% include "links/_new_comment.html" %}
+	{% include "links/_comments_frame.html" %}
+	{% include "base/_pagination.html" %}
+
+    <script src="{% static "js/comments.js" %}"></script>
+
+{% endblock %}

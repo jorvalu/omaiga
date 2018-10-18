@@ -1,0 +1,71 @@
+{% load templatetags %}
+
+<!-- Primary Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+
+  <div class="container"> 
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="{% url 'link_list' %}"><strong>OMAIGA</strong></a> 
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" 
+    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+      <!-- Acciones -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'link_create' %}"><strong>Enviar</strong></a></li>
+        <li class="nav-item"><a class="nav-link pr-0" href="#">Pendientes</a></li>
+      </ul>
+
+      <!-- Categorías -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="" id="nav-categories" role="button" 
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% category %}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="nav-categories">
+          <a class="dropdown-item" href="{% url 'link_list' %}">Portada</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'link_list' %}?cat=loc">Nacionales</a>
+          <a class="dropdown-item" href="{% url 'link_list' %}?cat=int">Internacionales</a>
+          <a class="dropdown-item" href="{% url 'link_list' %}?cat=opn">Opinión</a>
+          <a class="dropdown-item" href="{% url 'link_list' %}?cat=ent">Entretenimiento</a>
+          <a class="dropdown-item" href="{% url 'link_list' %}?cat=dep">Deportes</a>
+        </div>
+      </li>
+      </ul>
+
+      <!-- Usuario -->
+      {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="nav-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{user.username}}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="nav-account">
+            <a class="dropdown-item" href="{% url 'profile' %}">Perfil</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'logout' %}">Salir <i class="fa fa-sign-out-alt"></i></a>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link pr-0" href="{% url 'signup' %}">Registrarse</a></li>
+        </ul>
+      {% endif %}
+      
+    </div>
+    <!-- /.navbarResponsive -->
+
+  </div>
+  <!-- /.container -->
+
+</nav>

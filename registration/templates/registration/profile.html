@@ -1,0 +1,61 @@
+{% extends "links/main_w_sidebar.html" %}
+
+{% block head_title %}Perfil de usuario{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Perfil de usuario</h2>
+
+<p class="my-4">
+	Estos son los detalles de tu perfil.
+</p>
+
+<table class="table">
+    <tbody>
+		<tr>
+			<th>Usuario:</th>
+			<td>{{user.username}}</td>
+		</tr>
+
+		<tr>
+			<th>Email:</th>
+			<td>{{user.email}} <a href="{% url 'email_change' %}">[cambiar]<a></td>
+		</tr>
+
+		<tr>
+			<th>Avatar:</th>
+			<td>
+				<a href="https://en.gravatar.com" target="_blank">[seleccionar]<a> 
+				<small><i class="far fa-external-link-alt"></i></small></a>
+			</td>
+		</tr>
+
+		<tr>
+			<th>Contraseña:</th>
+			<td><a href="{% url 'password_change' %}">[cambiar]<a></td>
+		</tr>
+
+		<tr>
+			<th>Karma:</th>
+			<td>{{user.karma}}</td>
+		</tr>
+
+      	<tr>
+	        <th>Es moderador:</th>
+	        <td>{{user.is_staff}}</td>
+      	</tr>
+
+		<tr>
+			<th>Miembro desde:</th>
+			<td>{{user.date_joined | date:"l, F d, Y" }}</td>
+		</tr>
+
+		<tr>
+			<th>Última visita:</th>
+			<td>{{user.last_login | date:"l, F d, Y" }}</td>
+		</tr>
+
+    </tbody>
+ </table>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base/main.html" %}
+
+{% block body %}
+
+<div class="row my-4">
+
+  <!-- Content Column -->
+  <div class="col-lg-8">
+
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible my-4" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block content %}
+    {% endblock %}
+
+  </div>
+  <!-- /.col-lg-8 -->
+
+  <!-- Sidebar Widgets Column -->
+  <div class="col-lg-4">
+
+    <!-- Search Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Buscar</h5>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar...">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">Buscar!</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tags Widget -->
+
+
+    <div class="card my-4">
+      <h5 class="card-header">Etiquetas más populares</h5>
+      <div class="card-body">
+
+        {% load tagcloud %}
+        {% tagcloud 30 %}
+  
+      </div>
+    </div>
+
+    <!-- Top Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Top de la semana</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">29</a> Cras justo odio</li>
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">05</a> Dapibus facilisis in</li>
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">38</a> Vestibulum at eros</li>
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">42</a> Vulputate scelerisque </li>
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">04</a> Maecenas turpis ipsum</li>
+          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">12</a> Etiam finibus iaculis</li>
+        </ul>
+    </div>
+
+    <!-- Pending Widget -->
+    <div class="card my-4">
+      <h5 class="card-header">Pendientes de votar</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">29</a> Cras justo odio</li>
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">05</a> Dapibus facilisis in</li>
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">38</a> Vestibulum at eros</li>
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">42</a> Vulputate scelerisque </li>
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">04</a> Maecenas turpis ipsum</li>
+          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">12</a> Etiam finibus iaculis</li>
+        </ul>
+    </div>
+
+  </div>
+  <!-- /.col-md-4 -->
+
+</div>
+<!-- /.row -->
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% load templatetags %} 
+
+<img class="mr-3 mt-2 rounded-circle" src="{{comment.user|gravatar:90}}" alt="avatar" style="width: 50px;">
+
+<div class="media-body">
+
+  <div class="text-muted">
+    <small>
+    #{{comment.corr}} <a class="text-muted" href="#">{{comment.user}} ({{comment.user.karma}})</a> · 
+    <i class="far fa-calendar"></i> {{comment.date|date:'j-b-y g:i a'}}
+    {% if comment.user == user %}
+      · <i class="far fa-trash-alt"></i>
+        <a class="text-muted" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" 
+        data-action="{% url 'comment_delete' id=object.id pk=comment.pk %}"> eliminar </a>          
+    {% endif %}
+    </small>
+  </div>
+
+  <div>
+    {{comment.text|linebreaksbr}}
+  </div>
+
+  <div class="text-muted">
+    <small>
+
+      {% if user.is_authenticated %}
+        <span id="comment-{{comment.id}}-actions">
+          {% if comment.pk in positives %}
+            POSITIVO ·
+          {% elif comment.pk in negatives %}
+            NEGATIVO ·
+          {% else %}
+            <form class="points-form inline-block" method="post" action="{% url 'point' pk=comment.pk %}" novalidate> 
+              {% csrf_token %}
+              <input type="hidden" id="value" name="value" value="1" />
+              <button class="btn btn-xs btn-link" href="javascript:void(0)">
+                <i class="fa fa-arrow-alt-circle-up"></i> positivo
+              </button> ·
+            </form>
+            <form class="points-form inline-block" method="post" action="{% url 'point' pk=comment.pk %}" novalidate> 
+              {% csrf_token %}
+              <input type="hidden" id="value" name="value" value="-1" />
+              <button class="btn btn-xs btn-link" href="javascript:void(0)">
+                <i class="fa fa-arrow-alt-circle-down"></i> negativo
+              </button> ·
+            </form>
+          {% endif %}
+        </span>
+      {% endif %}
+
+      <span id="comment-{{comment.id}}-scores">
+        total {{ comment.points|total }} · karma {{ comment.points|karma }}
+      </span>
+
+    </small>
+  </div>
+
+</div>

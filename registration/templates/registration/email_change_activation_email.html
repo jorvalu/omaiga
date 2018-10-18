@@ -1,0 +1,21 @@
+{% autoescape off %}
+
+Hola {{ user }},
+
+Hemos recibido una solicitud para cambiar el email de tu cuenta.
+
+Haz clic en el siguiente enlace para verificar tu nueva cuenta de email:
+
+{% block reset_link %}
+
+http://{{ domain }}{% url 'email_change_activation' uidb64=uid token=token email_token=email_token %}
+
+{% endblock %}
+
+Si el enlace no funciona al hacer clic sobre él, por favor cópialo y pégalo en tu navegador.
+
+Atentamente,
+
+Webmaster
+
+{% endautoescape %}

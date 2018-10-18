@@ -1,0 +1,41 @@
+{% load static %}
+
+{% for comment in comments %}
+
+{% if comment.deleted == True %}
+<small>
+  <div class="text-muted text-right"> 
+    #{{comment.corr}} ha sido eliminado <i class="fas fa-times"></i>
+  </div>
+</small>
+
+{% elif comment.hidden == True %}
+<small>
+    <div class="text-right"> 
+      <a class="text-muted" data-toggle="collapse" href="#hiddenComment{{comment.pk}}" role="button">
+       #{{comment.corr}} oculto por negativos <i class="fas fa-angle-down"></i>
+      </a>
+    </div>
+</small>
+
+<!-- Comment -->
+<div class="media collapse" id="hiddenComment{{comment.pk}}">
+  {% include 'links/_comments_body.html' %}
+</div>
+
+{% else %}
+
+<!-- Comment -->
+<div class="media">
+  {% include 'links/_comments_body.html' %}
+</div>
+
+{% endif %}
+
+<hr>
+
+{% endfor %}
+
+{% include "base/_delete_modal.html" %}
+<script src="{% static "js/delete_modal.js" %}"></script>
+

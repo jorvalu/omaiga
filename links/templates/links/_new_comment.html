@@ -1,0 +1,11 @@
+<!-- Comments Form -->
+<div class="card my-4">
+  <h5 class="card-header">Haz un comentario:</h5>
+  <div class="card-body">
+	<form method="post" action="{% url 'comment_create' pk=object.pk %}" novalidate>
+        {% csrf_token %}
+        {% include 'base/_form.html' with form=form %}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+</div>

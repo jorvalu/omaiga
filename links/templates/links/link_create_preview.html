@@ -1,0 +1,72 @@
+{% extends "links/main_w_sidebar.html" %}
+
+{% block head_title %}Enviar noticia{% endblock %}
+
+{% block content %}
+
+<!-- Title -->
+<h3 class="mt-4 mb-0">
+	<a class="text-inherit" href="#">Enviar una noticia</a>
+</h3>
+
+<!-- Subtitle -->
+<p>Revisa la información de la noticia que debemos conocer</p>
+
+<hr>
+
+<!-- Title and ontent Form -->
+<div class="card mt-4">
+  <h5 class="card-header">Detalles de la noticia:</h5>
+  <div class="card-body">
+    <form>
+
+      <div class="form-group">
+        <label>Título de la noticia:</label>
+        <input type="url" class="form-control" placeholder="">
+        <small class="form-text text-muted">Máximo 120 caracteres</small>
+      </div>
+
+      <div class="form-group">
+        <label>Etiquetas:</label>
+        <input type="url" class="form-control">
+        <small class="form-text text-muted">Pocas palabras, separadas por «,»</small>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción de la noticia:</label>
+        <textarea class="form-control" rows="10"></textarea>
+        <small class="form-text text-muted">Describe con fidelidad el contenido del enlace (20 - 500 caracteres)</small>
+      </div>
+
+      <div class="form-group">
+        <label>Elige una categoría:</label>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio1">Nacionales</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio2">Internacionales</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio3">Opinión</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio4">Entretenimiento</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio5" name="customRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadio5">Deportes</label>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Anterior</button>
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+    
+    </form>
+  </div>
+</div>
+
+{% endblock %}
