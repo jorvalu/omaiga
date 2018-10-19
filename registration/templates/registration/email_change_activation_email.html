@@ -1,21 +1,47 @@
-{% autoescape off %}
+<html>
 
-Hola {{ user }},
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+	</head>
 
-Hemos recibido una solicitud para cambiar el email de tu cuenta.
+	<body>
+	  <div style="background-color:#fff;font-family:'Roboto',sans-serif;">
+	    <center>
+	      <table style="max-width:600px;text-align:center">
+	        <tbody>
 
-Haz clic en el siguiente enlace para verificar tu nueva cuenta de email:
+	          <tr>
+	            <td style="padding:30px;border-bottom:1px solid #e9edee;">
+	              <div style="font-size:3.5rem;">
+									OMAIGA!
+	              </div>
+	            </td>
+	          </tr>
 
-{% block reset_link %}
+	          <tr>
+	            <td style="padding:30px;">
+	              <p style="font-size:1.7rem;">Cambio de email</p>
+	              <p style="font-size:1.2rem;">Haz clic en el siguiente enlace para confirmar tu nuevo email</p>
 
-http://{{ domain }}{% url 'email_change_activation' uidb64=uid token=token email_token=email_token %}
+	              <p style="padding-top:15px;">
+	                <a clicktracking=off style="display:inline-block;text-decoration:none;padding:15px 30px;background-color:#4582EC;border-style:solid;border-width:0px 1px 4px 1px;border-color:#417bdf;border-radius:0.25rem;color:#FFF;font-weight:bold;" href="http://{{ domain }}{% url 'email_change_activation' uidb64=uid token=token email_token=email_token %}" target="_blank">
+										CONFIRMAR NUEVO EMAIL
+									</a>
+	              </p>
 
-{% endblock %}
+	            </td>
+	          </tr>
 
-Si el enlace no funciona al hacer clic sobre él, por favor cópialo y pégalo en tu navegador.
+	          <tr>
+	            <td style="padding:30px;border-top:1px solid #e9edee;;color:#9b9fa5">
+	              Si tienes alguna pregunta puedes escribirnos a <a style="color:#666d74;text-decoration:none;" href="mailto:contacto@omaiga.com.sv" target="_blank">contacto@omaiga.com.sv</a>
+	            </td>
+	          </tr>
 
-Atentamente,
+	        </tbody>
+	      </table>
+	    </center>
+	  </div>
+	</body>
 
-Webmaster
-
-{% endautoescape %}
+</html>

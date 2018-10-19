@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+Gracias por registrarte
+
+Haz clic en el siguiente enlace para confirmar tu email
+
+http://{{ domain }}{% url 'signup_activation' uidb64=uid token=token %}
+
+Atentamente,
+
+OMAIGA
+
+{% endautoescape %}

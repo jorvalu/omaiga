@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView, FormView, RedirectView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth import login, authenticate
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
@@ -15,16 +16,18 @@ User = get_user_model()
 class SignUpView(FormView):
 	form_class = SignUpForm
 	template_name = 'registration/signup.html'
-	email_from = 'webmaster@misitio.com'
+	email_from = 'contacto@omaiga.com.sv'
 	email_subject = 'registration/signup_activation_subject.txt'
-	email_template = 'registration/signup_activation_email.html'
+	email_html = 'registration/signup_activation_email.html'
+	email_txt = 'registration/signup_activation_email.txt'
 	success_url = reverse_lazy('signup_activation_sent')
 
 	def form_valid(self, form):
 		kwargs = {
 			'email_from': self.email_from,
 			'email_subject': self.email_subject,
-			'email_template': self.email_template,
+			'email_html': self.email_html,
+			'email_txt': self.email_txt,
 		}
 		form.save(**kwargs)
 		return super().form_valid(form)
@@ -40,7 +43,7 @@ class SignUpActivationView(RedirectView):
 
 		user = get_user(kwargs['uidb64'])
 		token = default_token_generator.check_token(user, kwargs['token'])
-		
+
 		if user is not None and token:
 			user.is_active = True
 			user.save()
@@ -54,15 +57,16 @@ class SignUpActivationView(RedirectView):
 class EmailChangeView(FormView):
 	form_class = EmailChangeForm
 	template_name = 'registration/email_change.html'
-	email_from = 'webmaster@misitio.com'
+	email_from = 'contacto@omaiga.com.sv'
 	email_subject = 'registration/email_change_activation_subject.txt'
-	email_template = 'registration/email_change_activation_email.html'
+	email_html = 'registration/email_change_activation_email.html'
+	email_txt = 'registration/email_change_activation_email.txt'
 	success_url = reverse_lazy('email_change_activation_sent')
 
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
-	
+
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
 		kwargs['request'] = self.request
@@ -72,7 +76,8 @@ class EmailChangeView(FormView):
 		kwargs = {
 			'email_from': self.email_from,
 			'email_subject': self.email_subject,
-			'email_template': self.email_template,
+			'email_html': self.email_html,
+			'email_txt': self.email_txt,
 		}
 		form.send_mail(**kwargs)
 		return super().form_valid(form)
@@ -107,10 +112,15 @@ class EmailChangeActivationView(FormView):
 			messages.error(self.request, 'El link de confirmación no es válido o ha expirado.')
 			return HttpResponseRedirect(self.redirect_url)
 
+class CustomPasswordResetView(PasswordResetView):
+	html_email_template_name = 'registration/password_reset_email.html'
+	email_template_name = 'registration/password_reset_email.txt'
+	subject_template_name = 'registration/password_reset_subject.txt'
+	from_email = 'contacto@omaiga.com.sv'
+
 class ProfileView(TemplateView):
     template_name = 'registration/profile.html'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-

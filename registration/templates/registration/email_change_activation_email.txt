@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+Cambio de email
+
+Haz clic en el siguiente enlace para confirmar tu nuevo email
+
+http://{{ domain }}{% url 'email_change_activation' uidb64=uid token=token email_token=email_token %}
+
+Atentamente,
+
+OMAIGA
+
+{% endautoescape %}

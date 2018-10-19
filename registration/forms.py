@@ -25,17 +25,22 @@ class SignUpForm(UserCreationForm):
 		user.save()
 
 		# send activation email
-		email_subject = kwargs['email_subject']
 		email_from = kwargs['email_from']
 		email_to = user.email
-		email_template = kwargs['email_template']
-		email_message = render_to_string(email_template, {
+		email_subject = render_to_string(kwargs['email_subject'])
+		email_subject = ''.join(email_subject.splitlines())
+		context = {
 			'user': user.username,
 			'domain': settings.DEFAULT_DOMAIN,
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
 			'token': default_token_generator.make_token(user),
-		})
-		send_mail(email_subject, email_message, email_from, ['email_to'])
+		}
+		email_html = render_to_string(kwargs['email_html'], context)
+		email_txt = render_to_string(kwargs['email_txt'], context)
+		send_mail(
+			subject=email_subject, message=email_txt, from_email=email_from,
+			recipient_list=[email_to], html_message=email_html
+		)
 
 class EmailChangeForm(forms.Form):
 	email1 = forms.EmailField(label="Email nuevo", max_length=254, error_messages={'invalid': ("Email inválido.")})
@@ -80,20 +85,20 @@ class EmailChangeForm(forms.Form):
 
 	def send_mail(self, **kwargs):
 		user = self.request.user
-		email_subject = kwargs['email_subject']
 		email_from = kwargs['email_from']
 		email_to = self.cleaned_data['email1']
-		email_template = kwargs['email_template']
-		email_message = render_to_string(email_template, {
+		email_subject = render_to_string(kwargs['email_subject'])
+		email_subject = ''.join(email_subject.splitlines())
+		context = {
 			'user': user.username,
 			'domain': settings.DEFAULT_DOMAIN,
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
 			'token': default_token_generator.make_token(user),
 			'email_token': default_token_generator.make_email_token(email_to),
-		})
-		send_mail(email_subject, email_message, email_from, ['email_to'])
-
-
-
-
-
+		}
+		email_html = render_to_string(kwargs['email_html'], context)
+		email_txt = render_to_string(kwargs['email_txt'], context)
+		send_mail(
+			subject=email_subject, message=email_txt, from_email=email_from,
+			recipient_list=[email_to], html_message=email_html
+		)
