@@ -1,6 +1,7 @@
 {% extends "base/main.html" %}
 
 {% block body %}
+{% load templatetags %}
 
 <div class="row my-4">
 
@@ -26,7 +27,7 @@
   <div class="col-lg-4">
 
     <!-- Search Widget -->
-    <div class="card my-4">
+    <!--div class="card my-4">
       <h5 class="card-header">Buscar</h5>
       <div class="card-body">
         <div class="input-group">
@@ -36,45 +37,29 @@
           </span>
         </div>
       </div>
-    </div>
+    </div-->
 
     <!-- Tags Widget -->
-
-
     <div class="card my-4">
       <h5 class="card-header">Etiquetas más populares</h5>
       <div class="card-body">
-
         {% load tagcloud %}
         {% tagcloud 30 %}
-  
       </div>
     </div>
 
     <!-- Top Widget -->
     <div class="card my-4">
-      <h5 class="card-header">Top de la semana</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">29</a> Cras justo odio</li>
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">05</a> Dapibus facilisis in</li>
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">38</a> Vestibulum at eros</li>
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">42</a> Vulputate scelerisque </li>
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">04</a> Maecenas turpis ipsum</li>
-          <li class="list-group-item"><a class="btn btn-danger btn-sm" href="#" role="button">12</a> Etiam finibus iaculis</li>
-        </ul>
+      <h5 class="card-header"><a class="text-inherit" href="{% url 'link_top' %}">Top de la semana</a></h5>
+      {% load top %}
+      {% top %}
     </div>
 
-    <!-- Pending Widget -->
+    <!-- Latest Widget -->
     <div class="card my-4">
-      <h5 class="card-header">Pendientes de votar</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">29</a> Cras justo odio</li>
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">05</a> Dapibus facilisis in</li>
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">38</a> Vestibulum at eros</li>
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">42</a> Vulputate scelerisque </li>
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">04</a> Maecenas turpis ipsum</li>
-          <li class="list-group-item"><a class="btn btn-secondary btn-sm" href="#" role="button">12</a> Etiam finibus iaculis</li>
-        </ul>
+      <h5 class="card-header"><a class="text-inherit" href="{% url 'link_latest' %}">Últimas enviadas</a></h5>
+      {% load latest %}
+      {% latest %}
     </div>
 
   </div>

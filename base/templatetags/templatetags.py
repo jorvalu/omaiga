@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django import template
 from tld import get_fld
 from hashlib import md5
@@ -15,17 +16,17 @@ def gravatar(user, size=35):
     url = "//www.gravatar.com/avatar/{0}?s={1}&d=identicon&r=PG"
     return url.format(email_hash, size)
 
-# preserves existing querystring with pagination 
+# preserves existing querystring with pagination
 @register.simple_tag(takes_context=True)
 def params(context):
 	request = context['request']
 	params = request.GET.copy()
-	params.pop('page', True) 
+	params.pop('page', True)
 	if len(params) >= 1:
 		params = params.urlencode() + '&'
 	else:
 		params = ""
-	return params 
+	return params
 
 # returns the name of the filtered category
 @register.simple_tag(takes_context=True)
@@ -35,7 +36,7 @@ def category(context):
 	if cat is not None:
 		category = dict(CATEGORIES)[cat]
 	else:
-		category = "Portada"	
+		category = "Portada"
 	return category
 
 @register.filter(name='sub')
@@ -54,6 +55,22 @@ def karma(query):
 	negatives = query.filter(value = -1).count()
 	return positives - negatives
 
+@register.simple_tag(takes_context=True)
+def color_btn(context):
+	request = context['request']
+	if request.path == reverse('link_latest'):
+		return 'secondary'
+	elif request.path == reverse('link_top'):
+		return 'danger'
+	else:
+		return 'primary'
 
-
-
+@register.simple_tag(takes_context=True)
+def color_txt(context):
+	request = context['request']
+	if request.path == reverse('link_latest'):
+		return 'dark'
+	elif request.path == reverse('link_top'):
+		return 'danger'
+	else:
+		return 'primary'

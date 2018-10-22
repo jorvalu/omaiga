@@ -18,8 +18,10 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from base.views import AboutView
 from registration.views import SignUpView, SignUpActivationSentView, SignUpActivationView
-from registration.views import EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView, CustomPasswordResetView, ProfileView
-from links.views import LinkListView, LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
+from registration.views import EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView
+from registration.views import CustomPasswordResetView, ProfileView
+from links.views import LinkListView, LinkLatestView, LinkTopView
+from links.views import LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
 from comments.views import CommentCreateView, CommentDeleteView, PointView
 
 urlpatterns = [
@@ -55,17 +57,19 @@ urlpatterns = [
 
     # links app
     path('', LinkListView.as_view(), name='link_list'),
-    path('link_create/', LinkCreateView.as_view(), name='link_create'),
-    path('link_detail/<pk>', LinkDetailView.as_view(), name='link_detail'),
-    path('link_update/<pk>', LinkUpdateView.as_view(), name='link_update'),
-    path('link_delete/<pk>', LinkDeleteView.as_view(), name='link_delete'),
+    path('latest/', LinkLatestView.as_view(), name='link_latest'),
+    path('top/', LinkTopView.as_view(), name='link_top'),
+    path('create/', LinkCreateView.as_view(), name='link_create'),
+    path('detail/<pk>', LinkDetailView.as_view(), name='link_detail'),
+    path('update/<pk>', LinkUpdateView.as_view(), name='link_update'),
+    path('delete/<pk>', LinkDeleteView.as_view(), name='link_delete'),
 
     # voting app
     path('vote/<pk>', VoteView.as_view(), name='vote'),
 
     # comments app
-    path('link_detail/<pk>/comment', CommentCreateView.as_view(), name='comment_create'),
-    path('link_detail/<id>/comment/delete/<pk>', CommentDeleteView.as_view(), name='comment_delete'),
-    path('link_detail/comment/point/<pk>/', PointView.as_view(), name='point'),
+    path('detail/<pk>/comment', CommentCreateView.as_view(), name='comment_create'),
+    path('detail/<id>/comment/delete/<pk>', CommentDeleteView.as_view(), name='comment_delete'),
+    path('detail/comment/point/<pk>/', PointView.as_view(), name='point'),
 
 ]

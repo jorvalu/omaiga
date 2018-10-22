@@ -10,25 +10,26 @@ from links.models import Link, Vote
 from links.forms import LinkForm, VoteForm
 from comments.forms import CommentForm
 from comments.models import Comment, Point
+from datetime import datetime, timedelta
+from django.db.models import Count
 import json
 
 class LinkListView(ListView):
     template_name = 'links/link_list.html'
     ordering = ['-rank']
-    paginate_by = 5
+    paginate_by = 10
     model = Link
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         cat = self.request.GET.get('cat', None)
         tag = self.request.GET.get('tag', None)
         if cat is not None and tag is None:
-            result = queryset.filter(category=cat)
+            return queryset.filter(category=cat)
         elif tag is not None and cat is None:
-            result = queryset.filter(tags__name__in=[tag])
-        else: # return original result
-            result = queryset
-        return result
+            return queryset.filter(tags__name__in=[tag])
+        else: # return the original queryset
+            return queryset
 
     # check if user has voted each link
     def get_context_data(self, **kwargs):
@@ -40,6 +41,18 @@ class LinkListView(ListView):
             voted = voted.values_list('link_id', flat=True)
             context["voted"] = voted
         return context
+
+class LinkLatestView(LinkListView):
+    ordering = ['-date']
+
+class LinkTopView(LinkListView):
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        date_filter = datetime.today() - timedelta(7)
+        queryset = queryset.filter(date__gte=date_filter)
+        queryset = queryset.annotate(num_votes=Count('votes')).order_by('-num_votes')
+        return queryset
 
 class LinkCreateView(CreateView):
     template_name = 'links/link_create.html'
@@ -63,7 +76,7 @@ class LinkDetailView(DetailView):
     template_name = 'links/link_detail.html'
     paginate_by = 10 # refers to comments
     model = Link
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm() # nest new comment form
@@ -157,36 +170,5 @@ class VoteView(FormView):
         result = {
             "id": f.link.id, # id of link that was clicked
             "votes": all_votes, # number of votes of the link
-        } 
+        }
         return self.create_response(result, True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

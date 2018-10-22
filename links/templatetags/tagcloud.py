@@ -2,7 +2,7 @@ from taggit.models import TaggedItem, Tag
 from django import template
 from django.db.models import Count, Sum
 
-F_MIN = 10 # min font size 
+F_MIN = 10 # min font size
 F_MAX = 42 # max font size
 
 register = template.Library()
@@ -12,8 +12,8 @@ from datetime import datetime, timedelta
 
 def get_queryset(days_ago):
     # filter links submitted last month
-    last_month = datetime.today() - timedelta(days_ago)
-    links_ids = Link.objects.filter(date__gte=last_month)
+    num_days = datetime.today() - timedelta(days_ago)
+    links_ids = Link.objects.filter(date__gte=num_days)
     # retrieve tag items related to those links
     tagged_item = TaggedItem.objects.filter(object_id__in=links_ids)
     # group by name and count number of links

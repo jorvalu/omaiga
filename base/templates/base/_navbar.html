@@ -3,13 +3,13 @@
 <!-- Primary Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 
-  <div class="container"> 
+  <div class="container">
 
     <!-- Brand -->
-    <a class="navbar-brand" href="{% url 'link_list' %}"><strong>OMAIGA</strong></a> 
+    <a class="navbar-brand" href="{% url 'link_list' %}"><strong>OMAIGA</strong></a>
 
     <!-- Toggler -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,13 +19,12 @@
       <!-- Acciones -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item"><a class="nav-link" href="{% url 'link_create' %}"><strong>Enviar</strong></a></li>
-        <li class="nav-item"><a class="nav-link pr-0" href="#">Pendientes</a></li>
       </ul>
 
       <!-- Categorías -->
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="" id="nav-categories" role="button" 
+        <a class="nav-link dropdown-toggle" href="" id="nav-categories" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {% category %}
         </a>
@@ -61,7 +60,7 @@
           <li class="nav-item"><a class="nav-link pr-0" href="{% url 'signup' %}">Registrarse</a></li>
         </ul>
       {% endif %}
-      
+
     </div>
     <!-- /.navbarResponsive -->
 

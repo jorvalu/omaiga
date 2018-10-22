@@ -15,12 +15,12 @@
         {% csrf_token %}
           {% if user.is_authenticated %}
             {% if object.pk in voted %}
-              <button id="btn-{{object.id}}" type="submit" class="btn btn-primary btn-sm active">Hecho</button>
+              <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm active">Hecho</button>
             {% else %}
-              <button id="btn-{{object.id}}" type="submit" class="btn btn-primary btn-sm">OMG</button>
+              <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm">OMG</button>
             {% endif %}
           {% else %}
-            <button id="btn-{{object.id}}" type="submit" class="btn btn-primary btn-sm">OMG</button>
+            <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm">OMG</button>
           {% endif %}
 
       </form>
@@ -35,7 +35,7 @@
     <h5 class="mb-0">
       <a class="text-inherit" href="{{object.url}}" target="_blank">{{object.title}}
         <small><i class="far fa-external-link-alt"></i></small></a>
-    </h4>
+    </h5>
 
     <!-- Details -->
     <div><small>
@@ -82,7 +82,7 @@
           <p class="mb-1">{{object.text}}</p>
 
           <!-- Comments -->
-          <a href="{% url 'link_detail' pk=object.pk %}" class="badge badge-primary">
+          <a href="{% url 'link_detail' pk=object.pk %}" class="badge badge-{% color_btn %}">
             <small><i class=" text-inverted fas fa-comments"></i></small>
             {{object.comments.count}} comentario{{object.comments.count|pluralize}}
           </a>
@@ -90,7 +90,7 @@
           <!-- Tags -->
           <small class="text-muted"> · <i class="fas fa-tags"></i></small>
           {% for tag in object.tags.all %}
-            <a href="{% url 'link_list' %}?tag={{tag.name}}">{{tag.name}}</a>,
+            <a class="text-{% color_txt %}" href="{% url 'link_list' %}?tag={{tag.name}}">{{tag.name}}</a>,
           {% endfor %}
         </div>
       </div>

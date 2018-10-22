@@ -1,0 +1,14 @@
+<ul class="list-group list-group-flush">
+  {% for link in top %}
+  <li class="list-group-item">
+    <div class="text-truncate">
+      <a class="btn btn-danger btn-sm mr-2" href="{% url 'link_detail' link.pk %}" role="button">
+        {{link.votes.count}}
+      </a>
+      <a class="text-inherit" href="{% url 'link_detail' link.pk %}">
+      {{link.title}}
+      </a>
+    </div>
+  </li>
+	{% endfor %}
+</ul>
