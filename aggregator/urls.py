@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from base.views import AboutView
 from registration.views import SignUpView, SignUpActivationSentView, SignUpActivationView
 from registration.views import EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView, CustomPasswordResetView, ProfileView
 from links.views import LinkListView, LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
@@ -25,6 +26,9 @@ urlpatterns = [
 
     # admin
     path('admin/', admin.site.urls),
+
+    # static pages
+    path('about/', AboutView.as_view(), name='about'),
 
     # auth
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
