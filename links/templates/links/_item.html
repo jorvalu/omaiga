@@ -10,8 +10,8 @@
       <h2 id="link-{{object.id}}" class="card-title mb-0">{{object.votes.count|floatformat:"0"}}</h2>
       <p class="card-text mb-2">OMG</p>
 
-      <form class="voting-form" method="post" action="{% url 'vote' pk=object.pk %}" novalidate> 
-        
+      <form class="voting-form" method="post" action="{% url 'vote' pk=object.pk %}" novalidate>
+
         {% csrf_token %}
           {% if user.is_authenticated %}
             {% if object.pk in voted %}
@@ -22,7 +22,7 @@
           {% else %}
             <button id="btn-{{object.id}}" type="submit" class="btn btn-primary btn-sm">OMG</button>
           {% endif %}
-        
+
       </form>
 
     </div>
@@ -33,7 +33,7 @@
 
     <!-- Title -->
     <h5 class="mb-0">
-      <a class="text-inherit" href="{{object.url}}" target="_blank">{{object.title}} 
+      <a class="text-inherit" href="{{object.url}}" target="_blank">{{object.title}}
         <small><i class="far fa-external-link-alt"></i></small></a>
     </h4>
 
@@ -41,27 +41,27 @@
     <div><small>
 
       <div class="inline-block text-muted">
-        <i class="far fa-user"></i> 
+        <i class="far fa-user"></i>
         <a class="text-muted" href="#">{{object.user}} ({{object.user.karma}})</a> ·
       </div>
-      
+
       <div class="inline-block text-muted">
-        <i class="fas fa-link"></i> 
+        <i class="fas fa-link"></i>
         <a class="text-muted" href="//{{object.url|domain}}">{{object.url|domain}}</a> ·
       </div>
-      
+
       <div class="inline-block text-muted">
-        <i class="far fa-calendar"></i> 
+        <i class="far fa-calendar"></i>
         {{object.date|date:'j-b-y g:i a'}}
       </div>
-      
+
       {% if object.user == user %}
       <div class="inline-block text-muted">
-        · <i class="far fa-edit"></i> 
+        · <i class="far fa-edit"></i>
         <a class="text-muted" href="{% url 'link_update' pk=object.pk %}">editar</a>
       </div>
       {% endif %}
-    
+
     </small></div>
 
     <hr>
@@ -69,32 +69,32 @@
     <!-- Description, image, tags and comments -->
     <div class="container">
       <div class="row">
-                  
+
         <!-- Image -->
-        <div id="item-img" class="col-md-3 order-md-2">
+        <!--div id="item-img" class="col-md-3 order-md-2">
           <img class="img-fluid rounded" src="https://via.placeholder.com/800x480" alt="">
-        </div>
+        </div-->
 
         <!-- Description, tags and comments -->
-        <div id="item-text" class="col-md-9 order-md-1">
+        <div id="item-text" class="col-md-12 order-md-1">
 
           <!-- Description -->
           <p class="mb-1">{{object.text}}</p>
 
           <!-- Comments -->
           <a href="{% url 'link_detail' pk=object.pk %}" class="badge badge-primary">
-            <small><i class=" text-inverted fas fa-comments"></i></small> 
+            <small><i class=" text-inverted fas fa-comments"></i></small>
             {{object.comments.count}} comentario{{object.comments.count|pluralize}}
-          </a> 
+          </a>
 
           <!-- Tags -->
-          <small class="text-muted"> · <i class="fas fa-tags"></i></small> 
+          <small class="text-muted"> · <i class="fas fa-tags"></i></small>
           {% for tag in object.tags.all %}
             <a href="{% url 'link_list' %}?tag={{tag.name}}">{{tag.name}}</a>,
           {% endfor %}
         </div>
       </div>
-      
+
     </div>
     <!-- /.container -->
 
