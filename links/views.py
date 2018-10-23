@@ -12,6 +12,7 @@ from comments.forms import CommentForm
 from comments.models import Comment, Point
 from datetime import datetime, timedelta
 from django.db.models import Count
+from django.http import Http404
 import json
 
 class LinkListView(ListView):
@@ -121,8 +122,11 @@ class LinkUpdateView(UpdateView):
     model = Link
 
     @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        link = self.get_object()
+        if link.user != self.request.user:
+            raise Http404("No tienes permiso para realizar esta acción.")
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('link_detail', kwargs={'pk': self.object.pk})
@@ -131,13 +135,16 @@ class LinkDeleteView(DeleteView):
     success_url = reverse_lazy('link_list')
     model = Link
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        link = self.get_object()
+        if link.user != self.request.user:
+            raise Http404("No tienes permiso para realizar esta acción.")
+        return super().dispatch(request, *args, **kwargs)
+
 class VoteView(FormView):
     form_class = VoteForm
     model = Vote
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def create_response(self, vdict=dict(), valid_form=True):
         response = HttpResponse(json.dumps(vdict), content_type='application/json')

@@ -3,9 +3,18 @@
   <h5 class="card-header">Haz un comentario:</h5>
   <div class="card-body">
 	<form method="post" action="{% url 'comment_create' pk=object.pk %}" novalidate>
+    {% if user.is_authenticated %}
         {% csrf_token %}
         {% include 'base/_form.html' with form=form %}
         <button type="submit" class="btn btn-primary">Enviar</button>
+    {% else %}
+        {% csrf_token %}
+        <label for="id_text">Necesitas <a href="{% url 'login' %}?next={{request.path}}">loguearte</a> para hacer un comentario</label>
+        <div class="form-group">
+          <textarea name="text" class="form-control" required="" cols="40" id="id_text" rows="4" disabled></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" disabled>Enviar</button>
+    {% endif %}
     </form>
   </div>
 </div>

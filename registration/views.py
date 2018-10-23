@@ -118,6 +118,10 @@ class CustomPasswordResetView(PasswordResetView):
 	subject_template_name = 'registration/password_reset_subject.txt'
 	from_email = 'contacto@omaiga.com.sv'
 
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
+
 class ProfileView(TemplateView):
     template_name = 'registration/profile.html'
 

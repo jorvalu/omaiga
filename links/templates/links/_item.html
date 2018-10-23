@@ -20,7 +20,9 @@
               <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm">OMG</button>
             {% endif %}
           {% else %}
-            <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm">OMG</button>
+          <button type="button" class="btn btn-{% color_btn %} btn-sm">
+            <a href="{% url 'login' %}" class="text-inherit">OMG</a>
+          </button>
           {% endif %}
 
       </form>

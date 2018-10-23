@@ -56,7 +56,7 @@
       </ul>
       {% else %}
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}?next={{request.path}}">Login</a></li>
           <li class="nav-item"><a class="nav-link pr-0" href="{% url 'signup' %}">Registrarse</a></li>
         </ul>
       {% endif %}
