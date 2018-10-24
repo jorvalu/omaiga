@@ -4,58 +4,53 @@
 
 {% block content %}
 
-<h1 class="my-4">Perfil de usuario</h2>
+{% load templatetags %}
 
-<p class="my-4">
-	Estos son los detalles de tu perfil.
-</p>
+{% url 'profile_sent' username=profile_user as profile_sent %}
+{% url 'profile_voted' username=profile_user as profile_voted %}
+{% url 'profile_comments' username=profile_user as profile_comments %}
 
-<table class="table">
-    <tbody>
-		<tr>
-			<th>Usuario:</th>
-			<td>{{user.username}}</td>
-		</tr>
+<div class="my-4 text-center">
 
-		<tr>
-			<th>Email:</th>
-			<td>{{user.email}} <a href="{% url 'email_change' %}">[cambiar]<a></td>
-		</tr>
+  <img class="rounded-circle align-self-center" src="{{profile_user|gravatar:150}}">
+  <h1 class="my-3">{{profile_user.username}}</h1>
+  <div>{{profile_user.email}} <a href="{% url 'email_change' %}">[cambiar]<a></div>
+  <div>************ <a href="{% url 'password_change' %}">[cambiar password]<a></div>
 
-		<tr>
-			<th>Avatar:</th>
-			<td>
-				<a href="https://en.gravatar.com" target="_blank">[seleccionar]<a> 
-				<small><i class="far fa-external-link-alt"></i></small></a>
-			</td>
-		</tr>
+</div>
 
-		<tr>
-			<th>Contraseña:</th>
-			<td><a href="{% url 'password_change' %}">[cambiar]<a></td>
-		</tr>
+<div class="my-4">
+  <div class="row">
 
-		<tr>
-			<th>Karma:</th>
-			<td>{{user.karma}}</td>
-		</tr>
+    <div class="col-4 text-center">
+      <h2 class="mb-0">{{profile_user.karma}}</h2> karma
+    </div>
 
-      	<tr>
-	        <th>Es moderador:</th>
-	        <td>{{user.is_staff}}</td>
-      	</tr>
+    <div class="col-4 text-center">
+      <h2 class="mb-0">{{profile_user.links.count}}</h2> enviadas
+    </div>
 
-		<tr>
-			<th>Miembro desde:</th>
-			<td>{{user.date_joined | date:"l, F d, Y" }}</td>
-		</tr>
+    <div class="col-4 text-center">
+      <h2 class="mb-0">{{profile_user.comments.count}}</h2> comentarios
+    </div>
 
-		<tr>
-			<th>Última visita:</th>
-			<td>{{user.last_login | date:"l, F d, Y" }}</td>
-		</tr>
+  </div>
+</div>
 
-    </tbody>
- </table>
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a class="nav-link {% if request.path == profile_sent %} active {% endif %}" href="{% url 'profile_sent' profile_user.username %}">Enviadas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.path == profile_voted %} active {% endif %}" href="{% url 'profile_voted' profile_user.username %}">Votadas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.path == profile_comments %} active {% endif %}" href="{% url 'profile_comments' profile_user.username %}">Comentarios</a>
+  </li>
+</ul>
+
+{% block profile %}
+
+{% endblock %}
 
 {% endblock %}

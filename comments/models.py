@@ -5,7 +5,7 @@ from links.models import Link
 
 class Comment(models.Model):
 	link = models.ForeignKey(Link, on_delete=models.CASCADE, related_name='comments')
-	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
+	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), related_name='comments')
 	text = models.TextField(max_length=500)
 	date = models.DateTimeField(auto_now_add=True)
 	corr = models.IntegerField()
@@ -21,4 +21,3 @@ class Point(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
 	comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='points')
 	value = models.IntegerField()
-

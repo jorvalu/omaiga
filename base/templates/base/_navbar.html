@@ -48,7 +48,7 @@
             {{user.username}}
           </a>
           <div class="dropdown-menu" aria-labelledby="nav-account">
-            <a class="dropdown-item" href="{% url 'profile' %}">Perfil</a>
+            <a class="dropdown-item" href="{% url 'profile_sent' user.username %}">Perfil</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'logout' %}">Salir <i class="fa fa-sign-out-alt"></i></a>
           </div>

@@ -19,7 +19,7 @@ class Link(models.Model):
 	url = models.URLField(max_length=250)
 	title = models.CharField(max_length=120)
 	rank = models.FloatField(default=0.0)
-	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
+	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), related_name='links')
 	date = models.DateTimeField(auto_now_add=True)
 	text = models.TextField(max_length=500)
 	category = models.CharField(max_length=3, choices=CATEGORIES)
@@ -42,6 +42,3 @@ class Vote(models.Model):
 
 	def __unicode__(self):
 		return "%s upvoted %s" % (self.voter.username, self.link.title)
-
-
-

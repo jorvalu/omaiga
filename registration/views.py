@@ -1,5 +1,6 @@
-from django.views.generic import TemplateView, FormView, RedirectView
+from django.views.generic import TemplateView, FormView, RedirectView, ListView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth import login, authenticate
 from django.utils.decorators import method_decorator
@@ -10,6 +11,9 @@ from django.contrib import messages
 from registration.forms import SignUpForm, EmailChangeForm
 from registration.utils import default_token_generator
 from registration.utils import get_user
+from links.models import Link, Vote
+from comments.models import Comment
+from django.http import Http404
 
 User = get_user_model()
 
@@ -54,7 +58,7 @@ class SignUpActivationView(RedirectView):
 			messages.error(self.request, 'El link de activación no es válido o ha expirado.')
 			return HttpResponseRedirect(self.redirect_url)
 
-class EmailChangeView(FormView):
+class EmailChangeView(LoginRequiredMixin, FormView):
 	form_class = EmailChangeForm
 	template_name = 'registration/email_change.html'
 	email_from = 'contacto@omaiga.com.sv'
@@ -62,15 +66,6 @@ class EmailChangeView(FormView):
 	email_html = 'registration/email_change_activation_email.html'
 	email_txt = 'registration/email_change_activation_email.txt'
 	success_url = reverse_lazy('email_change_activation_sent')
-
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
-
-	def get_form_kwargs(self):
-		kwargs = super().get_form_kwargs()
-		kwargs['request'] = self.request
-		return kwargs
 
 	def form_valid(self, form):
 		kwargs = {
@@ -82,19 +77,11 @@ class EmailChangeView(FormView):
 		form.send_mail(**kwargs)
 		return super().form_valid(form)
 
-class EmailChangeActivationSentView(TemplateView):
+class EmailChangeActivationSentView(LoginRequiredMixin, TemplateView):
 	template_name = 'registration/email_change_activation_sent.html'
 
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
-
-class EmailChangeActivationView(FormView):
+class EmailChangeActivationView(LoginRequiredMixin, FormView):
 	redirect_url = reverse_lazy('profile')
-
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
 
 	def dispatch(self, request, *args, **kwargs):
 		assert 'uidb64' in kwargs and 'token' in kwargs and 'email_token' in kwargs
@@ -113,18 +100,50 @@ class EmailChangeActivationView(FormView):
 			return HttpResponseRedirect(self.redirect_url)
 
 class CustomPasswordResetView(PasswordResetView):
-	html_email_template_name = 'registration/password_reset_email.html'
-	email_template_name = 'registration/password_reset_email.txt'
-	subject_template_name = 'registration/password_reset_subject.txt'
-	from_email = 'contacto@omaiga.com.sv'
+    html_email_template_name = 'registration/password_reset_email.html'
+    email_template_name = 'registration/password_reset_email.txt'
+    subject_template_name = 'registration/password_reset_subject.txt'
+    from_email = 'contacto@omaiga.com.sv'
 
-	@method_decorator(login_required)
-	def dispatch(self, *args, **kwargs):
-		return super().dispatch(*args, **kwargs)
+class BaseProfileView(ListView):
 
-class ProfileView(TemplateView):
-    template_name = 'registration/profile.html'
+	def get_profile_user(self):
+		try:
+			profile_user = User.objects.get(username=self.kwargs['username'])
+		except:
+			raise Http404("No encontrado.")
+		return profile_user
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['profile_user'] = self.get_profile_user()
+		return context
+
+class ProfileSentView(BaseProfileView):
+	template_name = 'registration/profile_sent.html'
+	ordering = ['-date']
+	model = Link
+
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		queryset = queryset.filter(user=self.get_profile_user())[:10]
+		return queryset
+
+class ProfileVotedView(BaseProfileView):
+	template_name = 'registration/profile_voted.html'
+	model = Vote
+
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		queryset = queryset.filter(user=self.get_profile_user())[:10]
+		return queryset
+
+class ProfileCommentsView(BaseProfileView):
+	template_name = 'registration/profile_comments.html'
+	ordering = ['-date']
+	model = Comment
+
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		queryset = queryset.filter(user=self.get_profile_user())[:10]
+		return queryset

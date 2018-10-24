@@ -1,0 +1,29 @@
+{% extends "registration/profile.html" %}
+
+{% block head_title %}Perfil de usuario{% endblock %}
+
+{% block profile %}
+
+<table class="table table-hover" style="table-layout:fixed;">
+  <thead>
+    <tr>
+      <th scope="col">Titular</th>
+      <th scope="col">Comentario</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      <td class="text-truncate">
+        <a class="btn btn-primary btn-sm mr-2" href="{% url 'link_detail' object.link.pk %}" role="button">{{object.link.votes.count}}</a>
+        <a class="text-inherit" href="{% url 'link_detail' object.link.pk %}">{{object.link.title}}</a>
+      </td>
+      <td class="text-truncate">
+        <a class="text-inherit" href="{% url 'link_detail' object.link.pk %}">{{object.text}}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

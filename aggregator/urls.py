@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 from base.views import AboutView
 from registration.views import SignUpView, SignUpActivationSentView, SignUpActivationView
 from registration.views import EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView
-from registration.views import CustomPasswordResetView, ProfileView
+from registration.views import CustomPasswordResetView, ProfileSentView, ProfileVotedView, ProfileCommentsView
 from links.views import LinkListView, LinkLatestView, LinkTopView
 from links.views import LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
 from comments.views import CommentCreateView, CommentDeleteView, PointView
@@ -53,7 +53,9 @@ urlpatterns = [
     path('accounts/email_change/activation/<uidb64>/<token>/<email_token>', EmailChangeActivationView.as_view(), name='email_change_activation'),
 
     # profile
-    path('accounts/profile/', ProfileView.as_view(), name='profile'),
+    path('accounts/profile/<username>/sent', ProfileSentView.as_view(), name='profile_sent'),
+    path('accounts/profile/<username>/voted', ProfileVotedView.as_view(), name='profile_voted'),
+    path('accounts/profile/<username>/comments', ProfileCommentsView.as_view(), name='profile_comments'),
 
     # links app
     path('', LinkListView.as_view(), name='link_list'),
