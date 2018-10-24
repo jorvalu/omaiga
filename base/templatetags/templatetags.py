@@ -5,6 +5,8 @@ from hashlib import md5
 from links.models import CATEGORIES
 register = template.Library()
 
+# filters
+
 @register.filter(name='domain')
 def domain(value):
 	return get_fld(value)
@@ -15,6 +17,47 @@ def gravatar(user, size=35):
     email_hash = md5(email).hexdigest()
     url = "//www.gravatar.com/avatar/{0}?s={1}&d=identicon&r=PG"
     return url.format(email_hash, size)
+
+@register.filter(name='comment_total_points')
+def comment_total_points(query):
+	positives = query.filter(value = 1).count()
+	negatives = query.filter(value = -1).count()
+	return positives + negatives
+
+@register.filter(name='comment_karma')
+def comment_karma(query):
+	positives = query.filter(value = 1).count()
+	negatives = query.filter(value = -1).count()
+	return positives - negatives
+
+from links.models import Vote
+from comments.models import Point
+@register.filter(name='user_karma')
+def user_karma(user):
+	# karma from link submissions
+	user_links = user.links.all()
+	links_karma = Vote.objects.filter(link__in=user_links).count()
+	# karma from user comments
+	user_comments = user.comments.all()
+	positives = Point.objects.filter(comment__in=user_comments, value=1).count()
+	negatives = Point.objects.filter(comment__in=user_comments, value=-1).count()
+	comments_karma = positives - negatives
+	# return total karma
+	total_karma = links_karma + comments_karma
+	return total_karma
+
+## templatetags
+
+# returns the name of the filtered category
+@register.simple_tag(takes_context=True)
+def category(context):
+	request = context['request']
+	cat = request.GET.get('cat', None)
+	if cat is not None:
+		category = dict(CATEGORIES)[cat]
+	else:
+		category = "Portada"
+	return category
 
 # preserves existing querystring with pagination
 @register.simple_tag(takes_context=True)
@@ -28,33 +71,7 @@ def params(context):
 		params = ""
 	return params
 
-# returns the name of the filtered category
-@register.simple_tag(takes_context=True)
-def category(context):
-	request = context['request']
-	cat = request.GET.get('cat', None)
-	if cat is not None:
-		category = dict(CATEGORIES)[cat]
-	else:
-		category = "Portada"
-	return category
-
-@register.filter(name='sub')
-def sub(value=0, arg=0):
-	return value - arg
-
-@register.filter(name='total')
-def total(query):
-	positives = query.filter(value = 1).count()
-	negatives = query.filter(value = -1).count()
-	return positives + negatives
-
-@register.filter(name='karma')
-def karma(query):
-	positives = query.filter(value = 1).count()
-	negatives = query.filter(value = -1).count()
-	return positives - negatives
-
+# returns button color for top and latest
 @register.simple_tag(takes_context=True)
 def color_btn(context):
 	request = context['request']
@@ -65,6 +82,7 @@ def color_btn(context):
 	else:
 		return 'primary'
 
+# returns button color for top and latest
 @register.simple_tag(takes_context=True)
 def color_txt(context):
 	request = context['request']
