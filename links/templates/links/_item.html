@@ -44,7 +44,7 @@
 
       <div class="inline-block text-muted">
         <i class="far fa-user"></i>
-        <a class="text-muted" href="#">{{object.user}} ({{object.user.karma}})</a> ·
+        <a class="text-muted" href="{% url 'profile_sent' object.user %}">{{object.user}} ({{object.user.karma}})</a> ·
       </div>
 
       <div class="inline-block text-muted">
