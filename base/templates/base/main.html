@@ -25,10 +25,10 @@
     <!-- Google Analytics -->
     {% load templatetags %}
     {% debug as debug %}
-    {% if debug %}
+    {% if not debug %}
       {% include "base/_analytics.html" %}
     {% endif %}
-    
+
   </head>
 
   <body>
