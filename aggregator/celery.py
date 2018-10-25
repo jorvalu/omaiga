@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'rank_all': {
         'task': 'links.tasks.rank_all',
-        'schedule': 10,
+        'schedule': 300,
     },
 }
