@@ -104,6 +104,6 @@ def color_txt(context):
 
 # analytics on / off
 @register.simple_tag()
-def debug():
-	debug = settings.DEBUG
-	return debug
+def is_production():
+	is_production = settings.IS_PRODUCTION
+	return is_production

@@ -24,8 +24,8 @@
 
     <!-- Google Analytics -->
     {% load templatetags %}
-    {% debug as debug %}
-    {% if not debug %}
+    {% is_production as is_production %}
+    {% if is_production %}
       {% include "base/_analytics.html" %}
     {% endif %}
 
