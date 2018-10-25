@@ -28,6 +28,7 @@ IS_PRODUCTION = (os.environ.get('IS_PRODUCTION') == 'True')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+# HOSTS
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 # Application definition
@@ -113,6 +114,10 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
+# REDIS
+BROKER_URL = os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+
 # REGISTRATION
 LOGIN_REDIRECT_URL = 'link_list'
 LOGOUT_REDIRECT_URL = 'link_list'
@@ -127,13 +132,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
-
-# REDIS related settings
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
