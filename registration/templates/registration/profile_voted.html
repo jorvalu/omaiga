@@ -1,6 +1,12 @@
 {% extends "registration/profile.html" %}
 
-{% block head_title %}Perfil de usuario{% endblock %}
+{% block head_title %}
+  {% if request.user == profile_user %}
+    Mi perfil: votadas
+  {% else %}
+    Perfil de usuario: votadas
+  {% endif %}
+{% endblock %}
 
 {% block profile %}
 

@@ -1,15 +1,26 @@
 {% extends "links/main_w_sidebar.html" %}
 
-{% block head_title %}Enviar noticia{% endblock %}
+{% load static %}
+
+{% block head_title %}
+	{% url 'link_update' pk=object.pk as update %}
+	{% if request.path == update %}
+		Editar noticia
+	{% else %}
+		Enviar noticia
+	{% endif %}
+{% endblock %}
 
 {% block content %}
-
 {% url 'link_update' pk=object.pk as update %}
-{% load static %}
 
 <!-- Title -->
 <h1 class="mt-4 mb-0">
-	<a class="text-inherit" href="#">Enviar una noticia</a>
+	{% if request.path == update %}
+		Editar noticia
+	{% else %}
+		Enviar noticia
+	{% endif %}
 </h1>
 
 <!-- Subtitle -->
@@ -38,11 +49,10 @@
         {% include 'base/_form.html' with form=form %}
         <button type="submit" class="btn btn-primary float-left">Enviar</button>
     </form>
-    
-    {% if request.path == update %}
-       <a class="btn btn-danger text-white float-right" href="javascript:void(0)" 
-       data-toggle="modal" data-target="#deleteModal" data-action="{% url 'link_delete' pk=object.pk %}">Eliminar</a>
 
+    {% if request.path == update %}
+       <a class="btn btn-danger text-white float-right" href="javascript:void(0)"
+       data-toggle="modal" data-target="#deleteModal" data-action="{% url 'link_delete' pk=object.pk %}">Eliminar</a>
     {% endif %}
 
   </div>
@@ -52,6 +62,3 @@
 <script src="{% static "js/delete_modal.js" %}"></script>
 
 {% endblock %}
-
-
-

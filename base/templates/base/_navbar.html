@@ -23,21 +23,35 @@
 
       <!-- Categorías -->
       <ul class="navbar-nav">
+
+        {% if request.GET.tag %}
+
+        <a class="nav-link" href="{% url 'link_list' %}">{{request.GET.tag}}
+        <small><i class="fas fa-times"></i></small></a>
+
+        {% else %}
+
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="" id="nav-categories" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {% category %}
+          {% page_title %}
         </a>
-        <div class="dropdown-menu" aria-labelledby="nav-categories">
-          <a class="dropdown-item" href="{% url 'link_list' %}">Portada</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'link_list' %}?cat=loc">Nacionales</a>
-          <a class="dropdown-item" href="{% url 'link_list' %}?cat=int">Internacionales</a>
-          <a class="dropdown-item" href="{% url 'link_list' %}?cat=opn">Opinión</a>
-          <a class="dropdown-item" href="{% url 'link_list' %}?cat=ent">Entretenimiento</a>
-          <a class="dropdown-item" href="{% url 'link_list' %}?cat=dep">Deportes</a>
-        </div>
-      </li>
+          <div class="dropdown-menu" aria-labelledby="nav-categories">
+            <a class="dropdown-item" href="{% url 'link_list' %}">Portada</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'link_list' %}?cat=loc">Nacionales</a>
+            <a class="dropdown-item" href="{% url 'link_list' %}?cat=int">Internacionales</a>
+            <a class="dropdown-item" href="{% url 'link_list' %}?cat=opn">Opinión</a>
+            <a class="dropdown-item" href="{% url 'link_list' %}?cat=ent">Entretenimiento</a>
+            <a class="dropdown-item" href="{% url 'link_list' %}?cat=dep">Deportes</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'link_top' %}">Top de la semana</a>
+            <a class="dropdown-item" href="{% url 'link_latest' %}">Últimas enviadas</a>
+          </div>
+        </li>
+
+        {% endif %}
+
       </ul>
 
       <!-- Usuario -->

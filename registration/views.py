@@ -67,6 +67,11 @@ class EmailChangeView(LoginRequiredMixin, FormView):
 	email_txt = 'registration/email_change_activation_email.txt'
 	success_url = reverse_lazy('email_change_activation_sent')
 
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs['request'] = self.request
+		return kwargs
+
 	def form_valid(self, form):
 		kwargs = {
 			'email_from': self.email_from,

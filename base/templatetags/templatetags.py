@@ -3,6 +3,7 @@ from django import template
 from tld import get_fld
 from hashlib import md5
 from links.models import CATEGORIES
+from django.conf import settings
 register = template.Library()
 
 # filters
@@ -50,14 +51,22 @@ def user_karma(user):
 
 # returns the name of the filtered category
 @register.simple_tag(takes_context=True)
-def category(context):
+def page_title(context):
 	request = context['request']
 	cat = request.GET.get('cat', None)
+	tag = request.GET.get('tag', None)
+	path = request.path
 	if cat is not None:
-		category = dict(CATEGORIES)[cat]
+		page_title = dict(CATEGORIES)[cat]
+	elif tag is not None:
+		page_title = 'tag: ' + tag
+	elif path == '/top/':
+		page_title = 'Top de la semana'
+	elif path == '/latest/':
+		page_title = 'Últimas enviadas'
 	else:
-		category = "Portada"
-	return category
+		page_title = "Portada"
+	return page_title
 
 # preserves existing querystring with pagination
 @register.simple_tag(takes_context=True)
@@ -92,3 +101,9 @@ def color_txt(context):
 		return 'danger'
 	else:
 		return 'primary'
+
+# analytics on / off
+@register.simple_tag()
+def debug():
+	debug = settings.DEBUG
+	return debug

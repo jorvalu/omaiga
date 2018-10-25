@@ -1,16 +1,10 @@
 {% extends "links/main_w_sidebar.html" %}
 
-{% block head_title %}Portada{% endblock %}
+{% load templatetags %}
+
+{% block head_title %}{% page_title %}{% endblock %}
 
 {% block content %}
-
-	{% if request.GET.tag %}
-	<div class="my-4">
-		<a href="{% url 'link_list' %}" class="btn btn-light" role="button" aria-pressed="true">{{request.GET.tag}}
-			<small><i class="fas fa-times"></i></small>
-		</a> 
-	</div>
-	{% endif %}
 
 	{% for object in object_list %}
 		{% include "links/_item.html" %}
