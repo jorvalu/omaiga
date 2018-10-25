@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = False
 
 # IS_PRODUCTION used to insert analytics code
-IS_PRODUCTION = (os.environ.get('DEBUG') == 'True')
+IS_PRODUCTION = (os.environ.get('IS_PRODUCTION') == 'True')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
