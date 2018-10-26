@@ -15,13 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth import views as auth_views
 from base.views import AboutView
-from registration.views import SignUpView, SignUpActivationSentView, SignUpActivationView
-from registration.views import EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView
-from registration.views import CustomPasswordResetView, ProfileSentView, ProfileVotedView, ProfileCommentsView
-from links.views import LinkListView, LinkLatestView, LinkTopView
-from links.views import LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
+from django.contrib.auth import views as auth_views
+from registration.views import SignUpView, SignUpActivationSentView, SignUpActivationView, CustomPasswordResetView, \
+EmailChangeView, EmailChangeActivationSentView, EmailChangeActivationView, ProfileSentView, ProfileVotedView, ProfileCommentsView
+from links.views import LinkListView, LinkLatestView, LinkTopView, LinkDetailView, \
+LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView, TagCloudView
 from comments.views import CommentCreateView, CommentDeleteView, PointView
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
@@ -45,6 +44,9 @@ urlpatterns = [
     path('about/', AboutView.as_view(), name='about'),
 
     # auth
+    path('accounts/signup/', SignUpView.as_view(), name='signup'),
+    path('accounts/signup/activation_sent/', SignUpActivationSentView.as_view(), name='signup_activation_sent'),
+    path('accounts/signup/activation/<uidb64>/<token>/', SignUpActivationView.as_view(), name='signup_activation'),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('accounts/password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
@@ -53,13 +55,6 @@ urlpatterns = [
     path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
-    # signup
-    path('accounts/signup/', SignUpView.as_view(), name='signup'),
-    path('accounts/signup/activation_sent/', SignUpActivationSentView.as_view(), name='signup_activation_sent'),
-    path('accounts/signup/activation/<uidb64>/<token>/', SignUpActivationView.as_view(), name='signup_activation'),
-
-    # email_change
     path('accounts/email_change/', EmailChangeView.as_view(), name='email_change'),
     path('accounts/email_change/activation_sent/', EmailChangeActivationSentView.as_view(), name='email_change_activation_sent'),
     path('accounts/email_change/activation/<uidb64>/<token>/<email_token>', EmailChangeActivationView.as_view(), name='email_change_activation'),
@@ -77,6 +72,7 @@ urlpatterns = [
     path('detail/<pk>', LinkDetailView.as_view(), name='link_detail'),
     path('update/<pk>', LinkUpdateView.as_view(), name='link_update'),
     path('delete/<pk>', LinkDeleteView.as_view(), name='link_delete'),
+    path('tagcloud/', TagCloudView.as_view(), name='tagcloud'),
 
     # voting app
     path('vote/<pk>', VoteView.as_view(), name='vote'),

@@ -1,0 +1,20 @@
+{% extends "links/main_w_sidebar.html" %}
+
+{% block content %}
+
+{% load templatetags %}
+
+<!-- Title -->
+<h1 class="mt-4 mb-0">
+	Tagcloud
+</h1>
+
+<!-- Subtitle -->
+<p>Listado completo de todas las etiquetas utilizadas alguna vez. </p>
+
+<hr>
+
+{% load tagcloud %}
+{% tagcloud None %}
+
+{% endblock %}

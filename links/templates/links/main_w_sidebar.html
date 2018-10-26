@@ -41,7 +41,7 @@
 
     <!-- Tags Widget -->
     <div class="card my-4">
-      <h5 class="card-header">Etiquetas más populares</h5>
+      <h5 class="card-header"><a class="text-inherit" href="{% url 'tagcloud' %}">Etiquetas más recientes</a></h5>
       <div class="card-body">
         {% load tagcloud %}
         {% tagcloud 30 %}

@@ -1,23 +1,23 @@
 from taggit.models import TaggedItem, Tag
-from django import template
 from django.db.models import Count, Sum
+from datetime import datetime, timedelta
+from links.models import Link
+from django import template
 
 F_MIN = 10 # min font size
 F_MAX = 42 # max font size
 
 register = template.Library()
 
-from links.models import Link
-from datetime import datetime, timedelta
-
 def get_queryset(days_ago):
-    # filter links submitted last month
-    num_days = datetime.today() - timedelta(days_ago)
-    links_ids = Link.objects.filter(date__gte=num_days)
-    # retrieve tag items related to those links
+    if days_ago is not None: # tagcloud of links submitted in the last x days
+        num_days = datetime.today() - timedelta(days_ago)
+        links_ids = Link.objects.filter(date__gte=num_days)
+    else: # tagcloud of all links
+        links_ids = Link.objects.all()
     tagged_item = TaggedItem.objects.filter(object_id__in=links_ids)
-    # group by name and count number of links
-    return tagged_item.values('tag__name').annotate(num_times=Count('object_id'))
+    tagged_item = tagged_item.values('tag__name').annotate(num_times=Count('object_id'))
+    return tagged_item
 
 @register.inclusion_tag('links/_tagcloud.html')
 def tagcloud(days_ago):

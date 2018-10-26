@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, FormView, TemplateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
@@ -179,3 +179,6 @@ class VoteView(FormView):
             "votes": all_votes, # number of votes of the link
         }
         return self.create_response(result, True)
+
+class TagCloudView(TemplateView):
+    template_name = 'links/tagcloud.html'
