@@ -10,7 +10,7 @@
 
 <div class="my-4 text-center">
 
-  <img class="rounded-circle align-self-center" src="{{profile_user|gravatar:150}}">
+  <img class="rounded-circle align-self-center" src="{{profile_user|gravatar:150}}" alt="avatar">
   <h1 class="my-3">{{profile_user.username}}</h1>
   {% if request.user == profile_user %}
   <div>{{profile_user.email}} <a href="{% url 'email_change' %}">[cambiar]<a></div>

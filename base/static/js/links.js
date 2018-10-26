@@ -8,7 +8,7 @@ $('.voting-form').on('submit', function(event){
 // vote action
 function vote(endpoint) {
     $.ajax({
-        url : endpoint, 
+        url : endpoint,
         type : "POST",
         success: function(result){
         	var link = "#link-" + result.id;
@@ -18,7 +18,7 @@ function vote(endpoint) {
         },
         error: function(xhr, errmsg, err) {
         	// provide more info about the error to the console
-            console.log(xhr.status + ": " + xhr.responseText); 
+            console.log(xhr.status + ": " + xhr.responseText);
         },
     });
 };
@@ -28,9 +28,9 @@ $.fn.extend({
     toggleState: function(){
     	$(this).toggleClass("active");
 		if ($(this).text() == 'OMG') {
-		    $(this).text('Hecho');
+		    $(this).text('Listo');
 		} else {
 			$(this).text('OMG');
-		}    	
+		}
     }
 });

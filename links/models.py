@@ -3,6 +3,7 @@ from registration.models import User
 from registration.models import get_sentinel_user
 from taggit.managers import TaggableManager
 from django.utils.timezone import now
+from django.urls import reverse
 
 CATEGORIES = (
 	('loc', 'Nacionales'),
@@ -35,6 +36,9 @@ class Link(models.Model):
 		link_hour_age = delta.total_seconds() // SECS_IN_HOUR
 		self.rank = votes / pow((link_hour_age + 2), GRAVITY)
 		self.save()
+
+	def get_absolute_url(self):
+		return reverse('link_detail', args=[str(self.id)])
 
 class Vote(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))

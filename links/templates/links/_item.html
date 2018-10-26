@@ -7,7 +7,7 @@
   <div class="card text-center mr-3 img-thumbnail" style="width: 85px;">
     <div class="card-body p-2">
 
-      <h2 id="link-{{object.id}}" class="card-title mb-0">{{object.votes.count|floatformat:"0"}}</h2>
+      <span id="link-{{object.id}}" class="card-title votes-count">{{object.votes.count|floatformat:"0"}}</span>
       <p class="card-text mb-2">OMG</p>
 
       <form class="voting-form" method="post" action="{% url 'vote' pk=object.pk %}" novalidate>
@@ -15,7 +15,7 @@
         {% csrf_token %}
           {% if user.is_authenticated %}
             {% if object.pk in voted %}
-              <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm active">Hecho</button>
+              <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm active">Listo</button>
             {% else %}
               <button id="btn-{{object.id}}" type="submit" class="btn btn-{% color_btn %} btn-sm">OMG</button>
             {% endif %}

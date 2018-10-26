@@ -1,0 +1,5 @@
+Sitemap: http://omaiga.com.sv/sitemap.xml
+User-agent: *
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /vote/

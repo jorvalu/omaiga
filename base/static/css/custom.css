@@ -50,6 +50,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* VOTES COUNT */
+
+.votes-count {
+  font-size: 1.75rem !important;
+  font-weight: 400;
+}
+
 /* NAVBAR */
 
 /* Fix bug when using navbar-expand */

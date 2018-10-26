@@ -1,6 +1,6 @@
 {% extends "links/main_w_sidebar.html" %}
 
-{% block head_title %}{{object.title}}{% endblock %}
+{% block head_title %}{{object.title|truncatechars:53}}{% endblock %}
 
 {% load static %}
 

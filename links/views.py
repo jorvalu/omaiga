@@ -18,7 +18,7 @@ import json
 class LinkListView(ListView):
     template_name = 'links/link_list.html'
     ordering = ['-rank']
-    paginate_by = 10
+    paginate_by = 25
     model = Link
 
     def get_queryset(self):
@@ -75,7 +75,7 @@ class LinkCreateView(CreateView):
 
 class LinkDetailView(DetailView):
     template_name = 'links/link_detail.html'
-    paginate_by = 10 # refers to comments
+    paginate_by = 100 # refers to comments
     model = Link
 
     def get_context_data(self, **kwargs):

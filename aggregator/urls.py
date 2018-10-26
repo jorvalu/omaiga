@@ -23,11 +23,23 @@ from registration.views import CustomPasswordResetView, ProfileSentView, Profile
 from links.views import LinkListView, LinkLatestView, LinkTopView
 from links.views import LinkDetailView, LinkCreateView, LinkUpdateView, LinkDeleteView, VoteView
 from comments.views import CommentCreateView, CommentDeleteView, PointView
+from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from base.sitemaps import LinkSitemap, StaticSitemap
+from base.views import Error404View
+from django.conf.urls import handler404
+
+sitemaps = {
+    'links': LinkSitemap,
+    'static': StaticSitemap,
+}
 
 urlpatterns = [
 
     # admin
     path('admin/', admin.site.urls),
+    path('robots.txt', TemplateView.as_view(template_name="base/robots.txt", content_type="text/plain"), name="robots"),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
 
     # static pages
     path('about/', AboutView.as_view(), name='about'),
@@ -75,3 +87,5 @@ urlpatterns = [
     path('detail/comment/point/<pk>/', PointView.as_view(), name='point'),
 
 ]
+
+handler404 = Error404View.as_view()
