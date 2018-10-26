@@ -1,5 +1,6 @@
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, FormView, TemplateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -55,14 +56,10 @@ class LinkTopView(LinkListView):
         queryset = queryset.annotate(num_votes=Count('votes')).order_by('-num_votes')
         return queryset
 
-class LinkCreateView(CreateView):
+class LinkCreateView(LoginRequiredMixin, CreateView):
     template_name = 'links/link_create.html'
     form_class = LinkForm
     model = Link
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         f = form.save(commit=False)

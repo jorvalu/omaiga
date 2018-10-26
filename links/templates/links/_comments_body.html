@@ -32,6 +32,8 @@
           {% elif comment.pk in negatives %}
             NEGATIVO ·
 
+          {% elif request.user == comment.user %}
+
           {% else %}
 
             <form class="points-form inline-block" method="post" action="{% url 'point' pk=comment.pk %}" novalidate>

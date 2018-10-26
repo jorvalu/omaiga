@@ -1,6 +1,7 @@
 from django.views.generic import CreateView, DeleteView, FormView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -9,13 +10,9 @@ from comments.models import Comment, Point
 from links.models import Link
 import json
 
-class CommentCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     form_class = CommentForm
     model = Comment
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         f = form.save(commit=False)
@@ -48,10 +45,6 @@ class PointView(FormView):
     form_class = PointForm
     model = Point
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
-
     def create_response(self, vdict=dict(), valid_form=True):
         response = HttpResponse(json.dumps(vdict), content_type='application/json')
         response.status = 200 if valid_form else 500
@@ -72,6 +65,8 @@ class PointView(FormView):
         f = form.save(commit=False)
         f.user = self.request.user
         f.comment = get_object_or_404(Comment, pk=self.kwargs['pk'])
+        if f.user == f.comment.user:
+            return self.create_response(valid_form=False)
         f.value = int(form.data['value'])
 
         result = {'id': f.comment.id}
