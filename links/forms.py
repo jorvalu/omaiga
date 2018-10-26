@@ -8,13 +8,13 @@ class LinkForm(forms.ModelForm):
 		labels = {
 			'url': 'Link:',
 			'title': 'Titular:',
-			'description': 'Descripción:',
+			'text': 'Descripción:',
 			'category': 'Categoría'
 		}
 		help_texts = {
 			'url': 'Pega el enlace de la noticia',
 			'title': 'Máximo 120 caracteres',
-			'description': 'Describe con fidelidad el contenido del enlace (20 - 500 caracteres)',
+			'text': 'Describe con fidelidad el contenido del enlace (20 - 500 caracteres)',
 			'category': 'Selecciona una categoría',
 		}
 
