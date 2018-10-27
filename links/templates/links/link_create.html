@@ -5,9 +5,9 @@
 {% block head_title %}
 	{% url 'link_update' pk=object.pk as update %}
 	{% if request.path == update %}
-		Editar noticia
+		Editar historia
 	{% else %}
-		Enviar noticia
+		Enviar historia
 	{% endif %}
 {% endblock %}
 
@@ -17,31 +17,41 @@
 <!-- Title -->
 <h1 class="mt-4 mb-0">
 	{% if request.path == update %}
-		Editar noticia
+		Editar historia
 	{% else %}
-		Enviar noticia
+		Enviar historia
 	{% endif %}
 </h1>
 
 <!-- Subtitle -->
-<p>Enlaza la fuente original de la noticia que crees que debemos conocer</p>
+<p>Enlaza la fuente original del contenido que crees que debemos conocer</p>
 
 <hr>
 
 <!-- Recommendations -->
-<p>Mauris interdum vulputate tortor eu fermentum.</p>
+<p>Estas son ideas de sitios con noticias o contenido interesante que puedes enlazar:</p>
 
 <ul>
-  <li>Cras justo odio</li>
-  <li>Dapibus ac facilisis in</li>
-  <li>Morbi leo risus</li>
-  <li>Porta ac consectetur ac</li>
-  <li>Vestibulum at eros</li>
+  <li>Medios de noticias nacionales</li>
+	<li>Medios alternativos con otras perspectivas de la realidad (ie. internacionales, independientes, etc.)</li>
+  <li>Redes sociales (Twitter, Youtube, etc.) -solo asegúrate que el contenido no sea privado-</li>
+	<li>Blogs u otros sitios personales con contenido aun por descubrir</li>
+</ul>
+
+<p>Evita enlazar el siguiente contenido:</p>
+
+<ul>
+  <li>Publicaciones tendenciosas o que muestren parcialidad</li>
+	<li>Contenido publicitario o cualquier tipo de spam</li>
+	<li>Publicaciones sensacionalistas o amarillistas</li>
+	<li>Contenido ilegal, discriminatorio o para adultos</li>
+
+
 </ul>
 
 <!-- Link Form -->
 <div class="card my-4">
-  <h5 class="card-header">Detalles de la noticia:</h5>
+  <h5 class="card-header">Detalles de tu historia:</h5>
   <div class="card-body">
 
     <form method="post" novalidate>
