@@ -87,7 +87,7 @@ class LinkDetailView(DetailView):
             context['voted'] = voted
 
         # paginate comments
-        comments_list = self.object.comments.all()
+        comments_list = self.object.comments.all().order_by('corr')
         paginator = Paginator(comments_list, self.paginate_by)
         page = self.request.GET.get('page')
         comments = paginator.get_page(page)

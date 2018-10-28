@@ -20,7 +20,7 @@ class Link(models.Model):
 	url = models.URLField(max_length=250)
 	title = models.CharField(max_length=120)
 	rank = models.FloatField(default=0.0)
-	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), related_name='links')
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='links')
 	date = models.DateTimeField(auto_now_add=True)
 	text = models.TextField(max_length=500)
 	category = models.CharField(max_length=3, choices=CATEGORIES)
@@ -41,7 +41,7 @@ class Link(models.Model):
 		return reverse('link_detail', args=[str(self.id)])
 
 class Vote(models.Model):
-	user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	link = models.ForeignKey(Link, on_delete=models.CASCADE, related_name='votes')
 
 	def __unicode__(self):
