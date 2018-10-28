@@ -9,12 +9,6 @@ class Comment(models.Model):
 	text = models.TextField(max_length=500)
 	date = models.DateTimeField(auto_now_add=True)
 	corr = models.IntegerField()
-	deleted = models.BooleanField(default=False)
-
-	#def delete(self):
-	#	self.deleted = True
-	#	self.text = "El comentario ha sido eliminado."
-	#	self.save()
 
 class Point(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
