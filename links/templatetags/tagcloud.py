@@ -1,6 +1,6 @@
 from taggit.models import TaggedItem, Tag
 from django.db.models import Count, Sum
-from datetime import datetime, timedelta
+from django.utils import timezone
 from links.models import Link
 from django import template
 
@@ -11,7 +11,7 @@ register = template.Library()
 
 def get_queryset(days_ago):
     if days_ago is not None: # tagcloud of links submitted in the last x days
-        num_days = datetime.today() - timedelta(days_ago)
+        num_days = timezone.now() - timezone.timedelta(days=days_ago)
         links_ids = Link.objects.filter(date__gte=num_days)
     else: # tagcloud of all links
         links_ids = Link.objects.all()

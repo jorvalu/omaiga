@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load templatetags %}
+{% load tz %}
 
 <div class="media my-4">
 
@@ -54,7 +55,7 @@
 
       <div class="inline-block text-muted">
         <i class="far fa-calendar"></i>
-        {{object.date|date:'j-b-y g:i a'}}
+        {{object.date|timezone:"America/El_Salvador"|date:'j-b-y g:i a'}}
       </div>
 
       {% if object.user == user %}

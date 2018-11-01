@@ -2,7 +2,7 @@ from django.db import models
 from registration.models import User
 from registration.models import get_sentinel_user
 from taggit.managers import TaggableManager
-from django.utils.timezone import now
+from django.utils import timezone
 from django.urls import reverse
 
 CATEGORIES = (
@@ -21,7 +21,7 @@ class Link(models.Model):
 	title = models.CharField(max_length=120)
 	rank = models.FloatField(default=0.0)
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='links')
-	date = models.DateTimeField(auto_now_add=True)
+	date = models.DateTimeField(default=timezone.now)
 	text = models.TextField(max_length=500)
 	category = models.CharField(max_length=3, choices=CATEGORIES)
 	tags = TaggableManager()
@@ -32,7 +32,7 @@ class Link(models.Model):
 	# votes divided by the age in hours to the gravityth power.
 	def set_rank(self):
 		votes = self.votes.count() - 1
-		delta = now() - self.date
+		delta = timezone.now() - self.date
 		link_hour_age = delta.total_seconds() // SECS_IN_HOUR
 		self.rank = votes / pow((link_hour_age + 2), GRAVITY)
 		self.save()

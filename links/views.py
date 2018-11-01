@@ -11,7 +11,7 @@ from links.models import Link, Vote
 from links.forms import LinkForm, VoteForm
 from comments.forms import CommentForm
 from comments.models import Comment, Point
-from datetime import datetime, timedelta
+from django.utils import timezone
 from django.db.models import Count
 from django.http import Http404
 import json
@@ -51,7 +51,7 @@ class LinkTopView(LinkListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        date_filter = datetime.today() - timedelta(7)
+        date_filter = timezone.now() - timezone.timedelta(7)
         queryset = queryset.filter(date__gte=date_filter)
         queryset = queryset.annotate(num_votes=Count('votes')).order_by('-num_votes')
         return queryset
