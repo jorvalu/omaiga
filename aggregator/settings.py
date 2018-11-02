@@ -109,7 +109,7 @@ STATIC_URL = '/static/'
 
 # EMAIL
 DEFAULT_DOMAIN = 'omaiga.com.sv'
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
