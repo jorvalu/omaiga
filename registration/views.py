@@ -86,7 +86,7 @@ class EmailChangeActivationSentView(LoginRequiredMixin, TemplateView):
 	template_name = 'registration/email_change_activation_sent.html'
 
 class EmailChangeActivationView(LoginRequiredMixin, FormView):
-	redirect_url = reverse_lazy('profile')
+	redirect_url = reverse_lazy('link_list')
 
 	def dispatch(self, request, *args, **kwargs):
 		assert 'uidb64' in kwargs and 'token' in kwargs and 'email_token' in kwargs
