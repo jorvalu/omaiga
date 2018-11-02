@@ -45,6 +45,8 @@
               </button> ·
             </form>
 
+            {% if request.user|user_karma > 4 %}
+
             <form class="points-form inline-block" method="post" action="{% url 'point' pk=comment.pk %}" novalidate>
               {% csrf_token %}
               <input type="hidden" id="value" name="value" value="-1" />
@@ -52,6 +54,8 @@
                 <i class="fa fa-arrow-alt-circle-down"></i> negativo
               </button> ·
             </form>
+
+            {% endif %}
 
           {% endif %}
 
